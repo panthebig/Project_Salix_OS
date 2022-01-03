@@ -16,10 +16,22 @@ public class CPU {
     }
     
     public void run() {
+
+
+
         int tick=0;
-        while(scheduler.getNextProcess()!= null){
+        int processesLoaded = 0;
+        while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
+            for (Process p :
+                    processes) {
+                if (p.GetArrivalTime() == tick) {
+                    scheduler.addProcess(p);
+                    processesLoaded++;
+                }
+            }
             tick();
-            //proccess .add make sure the
+            tick++;
+            //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on the ram
         }
         /* TODO: you need to add some code here
          * Hint: you need to run tick() in a loop, until there is nothing else to do... */
@@ -30,7 +42,7 @@ public class CPU {
         Process p;
         p = scheduler.getNextProcess();
         if(p == null){
-            return;
+            System.out.println("CPU Idle");
         }
         /* TODO: you need to add some code here
          * Hint: this method should run once for every CPU cycle */

@@ -35,7 +35,7 @@ public class SRTF extends Scheduler {
              * and change the return value */
             return processes.get(index);
 
-        }catch (Exception exception){
+        }catch (Exception exception){   //if exception no active proccesses
             System.out.println(exception);
             return null;
         }
