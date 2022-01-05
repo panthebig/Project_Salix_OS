@@ -32,19 +32,25 @@ public class CPU {
                     isLoaded[i] = true;
                     System.out.println("added proccess " + isLoaded[i]);
                     processesLoaded++;
+
+
                 }
             }
 
-            /*for (Process p :
-                    processes) {
-                if (p.GetArrivalTime() == tick) {
-                    scheduler.addProcess(p);
-                    processesLoaded++;
-                }
-            }*/
+
             tick();
             tick++;
-            //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on the ram
+            if(scheduler instanceof RoundRobin && scheduler.processes.isEmpty()){
+                for (int i=0;i<processes.length;i++){
+                    if (processes[i].GetBurstTime() > 0) {  //TODO rethink this
+                        scheduler.addProcess(processes[i]);
+                        System.out.println("found process not finished reloading it");
+
+
+                    }
+                }
+            }
+            //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on ram
         }
         /* TODO: you need to add some code here
          * Hint: you need to run tick() in a loop, until there is nothing else to do... */

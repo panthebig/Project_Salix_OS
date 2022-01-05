@@ -2,6 +2,7 @@
 public class RoundRobin extends Scheduler {
 
     private int quantum;
+
     
     public RoundRobin() {
         this.quantum = 1; // default quantum
@@ -34,9 +35,8 @@ public class RoundRobin extends Scheduler {
             }
             System.out.println(processes.get(0).GetBurstTime());
             processes.get(0).SetBurstTime(processes.get(0).GetBurstTime()-1);
-            /*if(processes.get(0).GetBurstTime()!=0){
-                addProcess(processes.get(0));
-            }*/
+
+
             /*int index = 0;
             for (int i=0;i<processes.size();i++){
                 if(processes.get(i).GetBurstTime()==0){
@@ -57,6 +57,7 @@ public class RoundRobin extends Scheduler {
             /* TODO: you need to add some code here
              * and change the return value */
             return processes.get(0);
+
 
         }catch (Exception exception){       //if exception no active proccesses
             System.out.println(exception);
