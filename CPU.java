@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CPU {
 
@@ -21,14 +22,26 @@ public class CPU {
 
         int tick=0;
         int processesLoaded = 0;
+        boolean isLoaded[] = new boolean[processes.length];
+        Arrays.fill(isLoaded,false);
+
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
-            for (Process p :
+            for (int i=0;i<processes.length;i++){
+                if (processes[i].GetArrivalTime() <= tick && !isLoaded[i]) {   //TODO change the == to >= depending on mem && process not loaded
+                    scheduler.addProcess(processes[i]);
+                    isLoaded[i] = true;
+                    System.out.println("added proccess " + isLoaded[i]);
+                    processesLoaded++;
+                }
+            }
+
+            /*for (Process p :
                     processes) {
                 if (p.GetArrivalTime() == tick) {
                     scheduler.addProcess(p);
                     processesLoaded++;
                 }
-            }
+            }*/
             tick();
             tick++;
             //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on the ram

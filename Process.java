@@ -17,7 +17,7 @@ public class Process {
         return burstTime;
     }
     public void SetBurstTime(int burstTime){
-        this.burstTime = burstTime - 1;
+        this.burstTime = burstTime;
     }
     
     public Process(int arrivalTime, int burstTime, int memoryRequirements) {

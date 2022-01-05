@@ -17,14 +17,14 @@ public class SRTF extends Scheduler {
             int index = 0;
             for (int i=0;i<processes.size();i++){
                 if(processes.get(i).GetBurstTime()==0){
+                    //System.out.println("Proccess"+ (i+1) +" finished SRTF");    //number represents the relative number in the list of processes not the actual number of the process
                     processes.remove(i);
-                    System.out.println("Proccess"+ i+1 +" finished SRTF");
                     i--;
                     continue;
                 }
-                if (i==0){
-                    index = processes.get(0).GetBurstTime();
-                }
+                /*if (i==0){
+                    index = 0;//processes.get(0).GetBurstTime();
+                }*/
                 if (processes.get(i).GetBurstTime() < processes.get(0).GetBurstTime()){                 //TODO rethink this loop
                     index = i;
                 }
