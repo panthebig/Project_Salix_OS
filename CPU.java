@@ -20,14 +20,14 @@ public class CPU {
 
 
 
-        int tick=0;
+        //int tick=0;
         int processesLoaded = 0;
         boolean isLoaded[] = new boolean[processes.length];
         Arrays.fill(isLoaded,false);
 
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
             for (int i=0;i<processes.length;i++){
-                if (processes[i].GetArrivalTime() <= tick && !isLoaded[i]) {   //TODO change the == to >= depending on mem && process not loaded
+                if (processes[i].GetArrivalTime() <= clock && !isLoaded[i]) {   //TODO change the == to >= depending on mem && process not loaded
                     scheduler.addProcess(processes[i]);
                     isLoaded[i] = true;
                     System.out.println("added proccess " + isLoaded[i]);
@@ -39,7 +39,7 @@ public class CPU {
 
 
             tick();
-            tick++;
+            //tick++;
             if(scheduler instanceof RoundRobin && scheduler.processes.isEmpty()){
                 for (int i=0;i<processes.length;i++){
                     if (processes[i].GetBurstTime() > 0) {  //TODO rethink this
@@ -63,6 +63,7 @@ public class CPU {
         if(p == null){
             System.out.println("CPU Idle");
         }
+        clock++;
         /* TODO: you need to add some code here
          * Hint: this method should run once for every CPU cycle */
         
