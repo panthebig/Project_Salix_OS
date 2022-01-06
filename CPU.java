@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class CPU {
 
@@ -23,7 +23,10 @@ public class CPU {
         //int tick=0;
         int processesLoaded = 0;
         boolean isLoaded[] = new boolean[processes.length];
-        Arrays.fill(isLoaded,false);
+        for (int i =0;i<processes.length;i++){
+            isLoaded[i] = false;
+        }
+        //Arrays.fill(isLoaded,false);
 
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
             for (int i=0;i<processes.length;i++){
