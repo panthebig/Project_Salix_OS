@@ -13,7 +13,7 @@ public class MMU {
     }
 
     public boolean loadProcessIntoRAM(Process p) {
-        boolean fit = false;
+        boolean fit = true;
         /* TODO: you need to add some code here
          * Hint: this should return true if the process was able to fit into memory
          * and false if not */

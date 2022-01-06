@@ -14,7 +14,7 @@ public class PC {
         final int[] availableBlockSizes = {15, 40, 10, 20}; // sizes in kB
         MemoryAllocationAlgorithm algorithm = new BestFit(availableBlockSizes);
         MMU mmu = new MMU(availableBlockSizes, algorithm);        
-        Scheduler scheduler = new RoundRobin();
+        Scheduler scheduler = new RoundRobin(3);
         CPU cpu = new CPU(scheduler, mmu, processes);
         System.out.println("CPU started");
         cpu.run();
