@@ -26,7 +26,7 @@ public class FCFS extends Scheduler {
             return processes.get(0);
 
         }catch (Exception exception){       //if exception no active proccesses
-            System.out.println(exception);
+            //System.out.println(exception);
             return null;
         }
     }

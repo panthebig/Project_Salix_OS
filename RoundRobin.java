@@ -60,7 +60,7 @@ public class RoundRobin extends Scheduler {
 
 
         }catch (Exception exception){       //if exception no active proccesses
-            System.out.println(exception);
+            //System.out.println(exception);
             return null;
         }
         /* TODO: you need to add some code here

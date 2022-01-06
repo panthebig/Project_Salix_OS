@@ -38,20 +38,22 @@ public class CPU {
             }
 
 
-            tick();
-            //tick++;
-            if(scheduler instanceof RoundRobin && scheduler.processes.isEmpty()){
+            if(scheduler instanceof RoundRobin && scheduler.processes.size() == 1){
                 for (int i=0;i<processes.length;i++){
-                    if (processes[i].GetBurstTime() > 0) {  //TODO rethink this
+                    if (processes[i].GetBurstTime() > 0 && processes[i].GetArrivalTime() <= clock) {  //TODO rethink this
                         scheduler.addProcess(processes[i]);
-                        System.out.println("found process not finished reloading it");
+                        //System.out.println("found process not finished reloading it");
 
 
                     }
                 }
             }
+            tick();
+            //tick++;
             //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on ram
         }
+
+        System.out.println("Total ticks : " + --clock);
         /* TODO: you need to add some code here
          * Hint: you need to run tick() in a loop, until there is nothing else to do... */
 
