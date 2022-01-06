@@ -44,7 +44,7 @@ public class CPU {
             }
 
 
-            if(scheduler instanceof RoundRobin && scheduler.processes.size() == 1){
+            if(scheduler instanceof RoundRobin && scheduler.processes.size() <= 1){
                 for (int i=0;i<processes.length;i++){
                     if (processes[i].GetBurstTime() > 0 && processes[i].GetArrivalTime() <= clock && isLoaded[i]) {  //TODO rethink this
                         scheduler.addProcess(processes[i]);
