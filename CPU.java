@@ -59,7 +59,7 @@ public class CPU {
             //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on ram
         }
 
-        System.out.println("Total ticks : " + clock);
+        System.out.println("Total ticks : " + --clock);
         /* TODO: you need to add some code here
          * Hint: you need to run tick() in a loop, until there is nothing else to do... */
 
@@ -73,8 +73,8 @@ public class CPU {
         }else {
             p.run();
             p.waitInBackground();
-            clock++;
         }
+        clock++;
         /* TODO: you need to add some code here
          * Hint: this method should run once for every CPU cycle */
         
