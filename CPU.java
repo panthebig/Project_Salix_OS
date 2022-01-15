@@ -22,6 +22,9 @@ public class CPU {
 
         //int tick=0;
         int processesLoaded = 0;
+        int blockedCycles = 0;
+        Process previousProcess = null;
+        Process currentProcess = null;
         boolean isLoaded[] = new boolean[processes.length];
         for (int i =0;i<processes.length;i++){
             isLoaded[i] = false;
@@ -31,12 +34,15 @@ public class CPU {
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
             for (int i=0;i<processes.length;i++){
                 if (mmu.loadProcessIntoRAM(processes[i])){
-                    if (processes[i].GetArrivalTime() <= clock && !isLoaded[i]) {   //TODO change the == to >= depending on mem && process not loaded
+                    //if (processes[i].GetArrivalTime() <= clock && !isLoaded[i]) {
+                    if (processes[i].getPCB().getState() == ProcessState.NEW && processes[i].GetArrivalTime() <= clock) {
                         processes[i].getPCB().setState(ProcessState.READY,clock);
                         scheduler.addProcess(processes[i]);
                         isLoaded[i] = true;
-                        System.out.println("added proccess " + isLoaded[i]);
+                        System.out.println("added proccess " + isLoaded[i] + " " + clock);
                         processesLoaded++;
+                        blockedCycles++;        //chahge it with  set state
+                        break;
 
 
                     }
@@ -44,18 +50,56 @@ public class CPU {
             }
 
 
-            if(scheduler instanceof RoundRobin && scheduler.processes.size() <= 1){
+            if(blockedCycles > 0){
+                blockedCycles--;
+                continue;
+            }
+
+
+            if(scheduler instanceof RoundRobin && scheduler.processes.size() <= ((RoundRobin) scheduler).GetQuantum()){
                 for (int i=0;i<processes.length;i++){
-                    if (processes[i].GetBurstTime() > 0 && processes[i].GetArrivalTime() <= clock && isLoaded[i]) {  //TODO rethink this
+                    if(processes[i].getPCB().getState() == ProcessState.READY || processes[i].GetBurstTime() > ((RoundRobin) scheduler).GetQuantum() ){
                         scheduler.addProcess(processes[i]);
-                        //System.out.println("found process not finished reloading it");
-
-
+                        System.out.println("found process not finished reloading it" + i);
                     }
+                    /*
+                    if (processes[i].GetBurstTime() > 0 && processes[i].GetArrivalTime() <= clock && isLoaded[i]) {  //TODO only one process can change state to running from ready  time 2 clocks , change state here
+                        scheduler.addProcess(processes[i]);
+
+
+                    }*/
                 }
             }
+
+
+
+
+            currentProcess = scheduler.getNextProcess();
+            if(currentProcess == null){
+                System.out.println("CPU Idle");
+            }else {
+                if (currentProcess != previousProcess && previousProcess != null && previousProcess.GetBurstTime() >0){
+                    //process push to background and start new
+                    System.out.println("Process moved to background + start of another process");
+                    previousProcess.waitInBackground();
+                    currentProcess.run();
+
+                }else if (currentProcess != previousProcess) {
+                    // just start process either first process or the previous terminated
+                    System.out.println("Process started running");
+                    currentProcess.run();
+                }
+                previousProcess = currentProcess;
+                //continue;
+
+            }
+
+
             tick();
-            //tick++;
+
+            System.out.println("Total ticks : " + clock);
+
+
             //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on ram
         }
 
@@ -66,6 +110,7 @@ public class CPU {
     }
     
     public void tick() {
+        /*
         Process p;
         p = scheduler.getNextProcess();
         if(p == null){
@@ -74,6 +119,7 @@ public class CPU {
             p.run();
             p.waitInBackground();
         }
+        */
         clock++;
         /* TODO: you need to add some code here
          * Hint: this method should run once for every CPU cycle */

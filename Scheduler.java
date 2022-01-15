@@ -18,6 +18,7 @@ public abstract class Scheduler {
      * schedulers. */
     public void removeProcess(Process p) {
         processes.remove(p);
+        //TODO chagne state to terminated
         /* TODO: you need to add some code here */
         
     }

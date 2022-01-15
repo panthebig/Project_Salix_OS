@@ -3,6 +3,10 @@ public class RoundRobin extends Scheduler {
 
     private int quantum;
 
+    public int GetQuantum(){
+        return quantum;
+    }
+
     
     public RoundRobin() {
         this.quantum = 1; // default quantum
@@ -25,15 +29,17 @@ public class RoundRobin extends Scheduler {
 
         try {
             if (processes.get(0).GetBurstTime()==0) {
+                processes.get(0).getPCB().setState(ProcessState.TERMINATED,CPU.clock);
                 System.out.println("finished process");
             }
             processes.remove(0);
             if (processes.get(0).GetBurstTime()==0){
                 while (processes.get(0).GetBurstTime()==0) {
+                    processes.get(0).getPCB().setState(ProcessState.TERMINATED,CPU.clock);
                     processes.remove(0);
                 }
             }
-            System.out.println(processes.get(0).GetBurstTime());
+            //System.out.println(processes.get(0).GetBurstTime());
             processes.get(0).SetBurstTime(processes.get(0).GetBurstTime()-1);
 
 

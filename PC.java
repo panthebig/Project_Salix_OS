@@ -6,10 +6,11 @@ public class PC {
         
         final Process[] processes = {
                 // Process parameters are: arrivalTime, burstTime, memoryRequirements (kB)
-                new Process(0, 5, 10),
-                new Process(2, 2, 40),
-                new Process(50, 1, 25),
-                new Process(40, 3, 30)           //TODO ueoro aujonta riumos arrival time otan dinontai proccesses
+                new Process(0, 10, 10),
+                new Process(1, 5, 40),
+                new Process(6, 1, 25),
+                //new Process(3, 3, 30)
+                // ueoro aujonta riumos arrival time otan dinontai proccesses
         };
         final int[] availableBlockSizes = {15, 40, 10, 20}; // sizes in kB
         MemoryAllocationAlgorithm algorithm = new BestFit(availableBlockSizes);
