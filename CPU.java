@@ -25,10 +25,10 @@ public class CPU {
         int blockedCycles = 0;
         Process previousProcess = null;
         Process currentProcess = null;
-        boolean isLoaded[] = new boolean[processes.length];
+        /*boolean isLoaded[] = new boolean[processes.length];
         for (int i =0;i<processes.length;i++){
             isLoaded[i] = false;
-        }
+        }*/
         //Arrays.fill(isLoaded,false);
 
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
@@ -38,10 +38,10 @@ public class CPU {
                     if (processes[i].getPCB().getState() == ProcessState.NEW && processes[i].GetArrivalTime() <= clock) {
                         processes[i].getPCB().setState(ProcessState.READY,clock);
                         scheduler.addProcess(processes[i]);
-                        isLoaded[i] = true;
-                        System.out.println("added proccess " + isLoaded[i] + " " + clock);
+                        //isLoaded[i] = true;
+                        System.out.println("added proccess " + " " + clock);
                         processesLoaded++;
-                        blockedCycles++;        //chahge it with  set state
+                        blockedCycles++;        //change it with  set state
                         break;
 
 
