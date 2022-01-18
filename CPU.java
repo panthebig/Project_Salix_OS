@@ -20,26 +20,22 @@ public class CPU {
 
 
 
-        //int tick=0;
         int processesLoaded = 0;
         int blockedCycles = 0;
         Process previousProcess = null;
         Process currentProcess = null;
-        /*boolean isLoaded[] = new boolean[processes.length];
-        for (int i =0;i<processes.length;i++){
-            isLoaded[i] = false;
-        }*/
-        //Arrays.fill(isLoaded,false);
+
+
 
         while(!scheduler.processes.isEmpty() || processesLoaded < processes.length ){
             for (int i=0;i<processes.length;i++){
                 if (mmu.loadProcessIntoRAM(processes[i])){
                     //if (processes[i].GetArrivalTime() <= clock && !isLoaded[i]) {
-                    if (processes[i].getPCB().getState() == ProcessState.NEW && processes[i].GetArrivalTime() <= clock) {
+                    if (processes[i].getPCB().getState() == ProcessState.NEW && processes[i].GetArrivalTime() <= clock) {       // Add processes to scheduler
                         processes[i].getPCB().setState(ProcessState.READY,clock);
                         scheduler.addProcess(processes[i]);
                         //isLoaded[i] = true;
-                        System.out.println("added proccess " + " " + clock);
+                        System.out.println("Added proccess " + " " +  processes[i].getPCB().getPid());
                         processesLoaded++;
                         blockedCycles++;        //change it with  set state
                         break;
@@ -58,16 +54,12 @@ public class CPU {
 
             if(scheduler instanceof RoundRobin && scheduler.processes.size() <= ((RoundRobin) scheduler).GetQuantum()){
                 for (int i=0;i<processes.length;i++){
+
                     if(processes[i].getPCB().getState() == ProcessState.READY || processes[i].GetBurstTime() > ((RoundRobin) scheduler).GetQuantum() ){
                         scheduler.addProcess(processes[i]);
-                        System.out.println("found process not finished reloading it" + i);
+                        //System.out.println("found process not finished reloading it" + i);
                     }
-                    /*
-                    if (processes[i].GetBurstTime() > 0 && processes[i].GetArrivalTime() <= clock && isLoaded[i]) {  //TODO only one process can change state to running from ready  time 2 clocks , change state here
-                        scheduler.addProcess(processes[i]);
 
-
-                    }*/
                 }
             }
 
@@ -78,6 +70,7 @@ public class CPU {
             if(currentProcess == null){
                 System.out.println("CPU Idle");
             }else {
+                System.out.println("Process state : "+ currentProcess.getPCB().getPid() + " " + currentProcess.getPCB().getState() );
                 if (currentProcess != previousProcess && previousProcess != null && previousProcess.GetBurstTime() >0){
                     //process push to background and start new
                     System.out.println("Process moved to background + start of another process");
@@ -90,7 +83,6 @@ public class CPU {
                     currentProcess.run();
                 }
                 previousProcess = currentProcess;
-                //continue;
 
             }
 
@@ -100,27 +92,19 @@ public class CPU {
             System.out.println("Total ticks : " + clock);
 
 
-            //add processes check arrival depending on arrival time             // TODO think when a process can be added depending on ram
         }
 
         System.out.println("Total ticks : " + --clock);
+
         /* TODO: you need to add some code here
          * Hint: you need to run tick() in a loop, until there is nothing else to do... */
 
     }
     
     public void tick() {
-        /*
-        Process p;
-        p = scheduler.getNextProcess();
-        if(p == null){
-            System.out.println("CPU Idle");
-        }else {
-            p.run();
-            p.waitInBackground();
-        }
-        */
+
         clock++;
+
         /* TODO: you need to add some code here
          * Hint: this method should run once for every CPU cycle */
         
